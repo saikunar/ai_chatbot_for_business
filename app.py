@@ -2,7 +2,11 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from chatbot import get_response, load_knowledge
 
-app = FastAPI()
+app = FastAPI(
+    title = "AI chatbot API",
+    docs_url = "/docs",
+    redoc_url = "/redoc"
+)
 
 class ChatRequest(BaseModel):
     message: str
