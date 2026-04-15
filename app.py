@@ -7,6 +7,9 @@ app = FastAPI(
     docs_url = "/docs",
     redoc_url = "/redoc"
 )
+@app.get("/")
+def home( ):
+    return {"message": "API is running"}
 
 class ChatRequest(BaseModel):
     message: str
