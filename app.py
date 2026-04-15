@@ -4,12 +4,9 @@ from chatbot import get_response, load_knowledge
 
 app = FastAPI(
     title = "AI chatbot API",
-    docs_url = "/docs",
+    d0cs_url = "/docs",
     redoc_url = "/redoc"
 )
-@app.get("/")
-def home( ):
-    return {"message": "API is running"}
 
 class ChatRequest(BaseModel):
     message: str
@@ -20,11 +17,17 @@ class TrainRequest(BaseModel):
 
 @app.post("/train")
 def train_bot(req: TrainRequest):
-    load_knowledge(req.data)
-    return {"status": "trained"}
+    try:
+        load_knowledge(req.data)
+        return {"status": "trained"}
+    except Exception as e:
+        return {"status": f"error: {str(e)}"}
 
 
 @app.post("/chat")
 def chat(req: ChatRequest):
-    reply = get_response(req.message)
-    return {"response": reply}
+    try:
+        response = get_response(req.message)
+        return {"response": response}
+    except Exception as e:
+        return {"response": f"Error: {str(e)}"}
